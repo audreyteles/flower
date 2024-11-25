@@ -70,4 +70,3 @@ handlers = [
     (r".*", NotFoundErrorHandler),
 ]
 
-]
