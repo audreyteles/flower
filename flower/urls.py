@@ -18,48 +18,55 @@ settings = dict(
     login_url='/login',
 )
 
+# nginx base_path
+basepath = '/flower/'
 
 handlers = [
     # App
-    url(r"/", WorkersView, name='main'),
-    url(r"/workers", WorkersView, name='workers'),
-    url(r"/worker/(.+)", WorkerView, name='worker'),
-    url(r"/task/(.+)", TaskView, name='task'),
-    url(r"/tasks", TasksView, name='tasks'),
-    url(r"/tasks/datatable", TasksDataTable),
-    url(r"/broker", BrokerView, name='broker'),
+    url(f"{basepath}/", WorkersView, name='main'),
+    url(f"{basepath}/workers", WorkersView, name='workers'),
+    url(f"{basepath}/worker/(.+)", WorkerView, name='worker'),
+    url(f"{basepath}/task/(.+)", TaskView, name='task'),
+    url(f"{basepath}/tasks", TasksView, name='tasks'),
+    url(f"{basepath}/tasks/datatable", TasksDataTable),
+    url(f"{basepath}/broker", BrokerView, name='broker'),
+    
     # Worker API
-    (r"/api/workers", workers.ListWorkers),
-    (r"/api/worker/shutdown/(.+)", control.WorkerShutDown),
-    (r"/api/worker/pool/restart/(.+)", control.WorkerPoolRestart),
-    (r"/api/worker/pool/grow/(.+)", control.WorkerPoolGrow),
-    (r"/api/worker/pool/shrink/(.+)", control.WorkerPoolShrink),
-    (r"/api/worker/pool/autoscale/(.+)", control.WorkerPoolAutoscale),
-    (r"/api/worker/queue/add-consumer/(.+)", control.WorkerQueueAddConsumer),
-    (r"/api/worker/queue/cancel-consumer/(.+)",
-        control.WorkerQueueCancelConsumer),
+    (f"{basepath}/api/workers", workers.ListWorkers),
+    (f"{basepath}/api/worker/shutdown/(.+)", control.WorkerShutDown),
+    (f"{basepath}/api/worker/pool/restart/(.+)", control.WorkerPoolRestart),
+    (f"{basepath}/api/worker/pool/grow/(.+)", control.WorkerPoolGrow),
+    (f"{basepath}/api/worker/pool/shrink/(.+)", control.WorkerPoolShrink),
+    (f"{basepath}/api/worker/pool/autoscale/(.+)", control.WorkerPoolAutoscale),
+    (f"{basepath}/api/worker/queue/add-consumer/(.+)", control.WorkerQueueAddConsumer),
+    (f"{basepath}/api/worker/queue/cancel-consumer/(.+)", control.WorkerQueueCancelConsumer),
+    
     # Task API
-    (r"/api/tasks", tasks.ListTasks),
-    (r"/api/task/types", tasks.ListTaskTypes),
-    (r"/api/queues/length", tasks.GetQueueLengths),
-    (r"/api/task/info/(.*)", tasks.TaskInfo),
-    (r"/api/task/apply/(.+)", tasks.TaskApply),
-    (r"/api/task/async-apply/(.+)", tasks.TaskAsyncApply),
-    (r"/api/task/send-task/(.+)", tasks.TaskSend),
-    (r"/api/task/result/(.+)", tasks.TaskResult),
-    (r"/api/task/abort/(.+)", tasks.TaskAbort),
-    (r"/api/task/timeout/(.+)", control.TaskTimout),
-    (r"/api/task/rate-limit/(.+)", control.TaskRateLimit),
-    (r"/api/task/revoke/(.+)", control.TaskRevoke),
+    (f"{basepath}/api/tasks", tasks.ListTasks),
+    (f"{basepath}/api/task/types", tasks.ListTaskTypes),
+    (f"{basepath}/api/queues/length", tasks.GetQueueLengths),
+    (f"{basepath}/api/task/info/(.*)", tasks.TaskInfo),
+    (f"{basepath}/api/task/apply/(.+)", tasks.TaskApply),
+    (f"{basepath}/api/task/async-apply/(.+)", tasks.TaskAsyncApply),
+    (f"{basepath}/api/task/send-task/(.+)", tasks.TaskSend),
+    (f"{basepath}/api/task/result/(.+)", tasks.TaskResult),
+    (f"{basepath}/api/task/abort/(.+)", tasks.TaskAbort),
+    (f"{basepath}/api/task/timeout/(.+)", control.TaskTimout),
+    (f"{basepath}/api/task/rate-limit/(.+)", control.TaskRateLimit),
+    (f"{basepath}/api/task/revoke/(.+)", control.TaskRevoke),
+    
     # Metrics
-    (r"/metrics", monitor.Metrics),
-    (r"/healthcheck", monitor.Healthcheck),
+    (f"{basepath}/metrics", monitor.Metrics),
+    (f"{basepath}/healthcheck", monitor.Healthcheck),
+    
     # Static
-    (r"/static/(.*)", StaticFileHandler,
-     {"path": settings['static_path']}),
+    (f"{basepath}/static/(.*)", StaticFileHandler, {"path": settings['static_path']}),
+    
     # Auth
-    (r"/login", auth.LoginHandler),
+    (f"{basepath}/login", auth.LoginHandler),
 
     # Error
     (r".*", NotFoundErrorHandler),
+]
+
 ]
