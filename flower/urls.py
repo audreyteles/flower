@@ -18,7 +18,7 @@ settings = dict(
     static_path=os.path.join(os.path.dirname(__file__), "static"),
     cookie_secret=gen_cookie_secret(),
     static_url_prefix=f'{basepath}/static/',
-    login_url=(f'{basepath}/login',
+    login_url=f'{basepath}/login',
 )
 
 
